@@ -2,7 +2,7 @@ import os
 from torchvision import datasets, transforms
 from torch.utils.data import DataLoader, random_split
 
-def get_data_for_training():
+def get_data_for_training(num_workers = 0):
     transform = transforms.Compose([
         transforms.Resize((64, 64)),
         transforms.ToTensor(),
@@ -20,12 +20,8 @@ def get_data_for_training():
 
     train_dataset, val_dataset, test_dataset = random_split(full_dataset, [train_size, val_size, test_size])
 
-    train_loader = DataLoader(train_dataset, batch_size=32, shuffle=True)
-    val_loader = DataLoader(val_dataset, batch_size=32, shuffle=False)
-    test_loader = DataLoader(test_dataset, batch_size=32, shuffle=False)
-
-    # print(f"Training set: {len(train_dataset)} images")
-    # print(f"Validation set: {len(val_dataset)} images")
-    # print(f"Test set: {len(test_dataset)} images")
+    train_loader = DataLoader(train_dataset, batch_size=64, shuffle=True, num_workers=num_workers)
+    val_loader = DataLoader(val_dataset, batch_size=64, shuffle=False)
+    test_loader = DataLoader(test_dataset, batch_size=64, shuffle=False)
 
     return train_loader, val_loader, test_loader
