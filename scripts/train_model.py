@@ -2,10 +2,12 @@ import torch
 import torch.nn as nn
 from tqdm import tqdm
 
+from utils.TrainedModelStatistics import TrainedModelStatistics
+
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 
-def train_model(model, train_loader, val_loader, epochs=10, show_info=True):
+def train_model(model, model_statistics: TrainedModelStatistics, train_loader, val_loader, epochs=10, show_info=True):
     criterion = nn.CrossEntropyLoss()
     optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
     model = model.to(device)
@@ -41,8 +43,8 @@ def train_model(model, train_loader, val_loader, epochs=10, show_info=True):
 
             train_loader_tqdm.set_postfix(loss=loss.item())
 
-        train_losses.append(train_loss / len(train_loader))
-        train_accuracies.append(100 * correct / total)
+        model_statistics.add_train_loss(train_loss / len(train_loader))
+        model_statistics.add_train_accuracies(100 * correct / total)
 
         model.eval()
         val_loss = 0
@@ -62,8 +64,8 @@ def train_model(model, train_loader, val_loader, epochs=10, show_info=True):
 
                 val_loader_tqdm.set_postfix(loss=loss.item())
 
-        val_losses.append(val_loss / len(val_loader))
-        val_accuracies.append(100 * correct / total)
+        model_statistics.add_val_losses(val_loss / len(val_loader))
+        model_statistics.add_val_accuracies(100 * correct / total)
 
         if show_info:
             print(f"   Train Loss: {train_losses[-1]:.4f}, Accuracy: {train_accuracies[-1]:.2f}%")
