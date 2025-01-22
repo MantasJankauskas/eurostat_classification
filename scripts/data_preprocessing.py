@@ -20,8 +20,8 @@ def get_data_for_training(num_workers = 0):
 
     train_dataset, val_dataset, test_dataset = random_split(full_dataset, [train_size, val_size, test_size])
 
-    train_loader = DataLoader(train_dataset, batch_size=64, shuffle=True, num_workers=num_workers)
-    val_loader = DataLoader(val_dataset, batch_size=64, shuffle=False)
-    test_loader = DataLoader(test_dataset, batch_size=64, shuffle=False)
+    train_loader = DataLoader(train_dataset, batch_size=32, shuffle=True, num_workers=num_workers)
+    val_loader = DataLoader(val_dataset, batch_size=32, shuffle=False, num_workers=num_workers)
+    test_loader = DataLoader(test_dataset, batch_size=32, shuffle=False, num_workers=num_workers)
 
     return train_loader, val_loader, test_loader

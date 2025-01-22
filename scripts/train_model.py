@@ -1,15 +1,12 @@
 import torch
 import torch.nn as nn
 from tqdm import tqdm
-from models.CNN import CNN
-from scripts.data_preprocessing import get_data_for_training
+
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 def train_model(model, train_loader, val_loader, epochs=10):
     criterion = nn.CrossEntropyLoss()
     optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
-
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-
     model = model.to(device)
 
     train_losses = []
@@ -69,11 +66,4 @@ def train_model(model, train_loader, val_loader, epochs=10):
         print(f"   Train Loss: {train_losses[-1]:.4f}, Accuracy: {train_accuracies[-1]:.2f}%")
         print(f"   Val Loss: {val_losses[-1]:.4f}, Accuracy: {val_accuracies[-1]:.2f}%")
 
-    return train_losses, train_accuracies, val_losses, val_accuracies
-
-if __name__ == "__main__":
-    from models.CNN import CNN
-    from scripts.data_preprocessing import get_data_for_training
-
-    train_loaderz, val_loaderz, test_loaderz = get_data_for_training(num_workers=6)
-    train_model(CNN(), train_loaderz, val_loaderz)
+    return model

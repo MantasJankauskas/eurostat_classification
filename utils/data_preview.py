@@ -38,7 +38,6 @@ def show_data_distribution():
     dataset_path = os.path.join(os.path.dirname(script_dir), "dataset")
 
     class_counts = {cls: len(os.listdir(os.path.join(dataset_path, cls))) for cls in data_classes}
-    # print("Classes Count:", class_counts)
 
     plt.bar(class_counts.keys(), class_counts.values())
     plt.xticks(rotation=90)
