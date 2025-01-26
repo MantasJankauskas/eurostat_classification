@@ -2,12 +2,21 @@ import os
 from torchvision import datasets, transforms
 from torch.utils.data import DataLoader, random_split
 
-def get_data_for_training(num_workers = 0):
+def get_data_for_training(num_workers = 0, add_image_augmentation = False):
     transform = transforms.Compose([
         transforms.Resize((64, 64)),
         transforms.ToTensor(),
         transforms.Normalize(mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5])
     ])
+
+    if add_image_augmentation:
+        transform = transforms.Compose([
+            transforms.Resize((64, 64)),
+            transforms.RandomHorizontalFlip(p=0.5),
+            transforms.RandomRotation(degrees=30),
+            transforms.ToTensor(),
+            transforms.Normalize(mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5])
+        ])
 
     script_dir = os.path.abspath(os.path.dirname(__file__))
     dataset_path = os.path.join(os.path.dirname(script_dir), "dataset")

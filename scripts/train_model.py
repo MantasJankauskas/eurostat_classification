@@ -12,14 +12,9 @@ def train_model(model, model_statistics: TrainedModelStatistics, train_loader, v
     optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
     model = model.to(device)
 
-    train_losses = []
-    val_losses = []
-    train_accuracies = []
-    val_accuracies = []
-
     for epoch in range(epochs):
         if show_info:
-            print(f"Epoch {epoch + 1}/{epochs}")
+            print(f"\nEpoch {epoch + 1}/{epochs}")
 
         model.train()
         train_loss = 0
@@ -68,8 +63,8 @@ def train_model(model, model_statistics: TrainedModelStatistics, train_loader, v
         model_statistics.add_val_accuracies(100 * correct / total)
 
         if show_info:
-            print(f"   Train Loss: {train_losses[-1]:.4f}, Accuracy: {train_accuracies[-1]:.2f}%")
-            print(f"   Val Loss: {val_losses[-1]:.4f}, Accuracy: {val_accuracies[-1]:.2f}%")
+            print(f"\nTrain Loss: {model_statistics.get_train_loss()[-1]:.4f}, Accuracy: {model_statistics.get_train_accuracies()[-1]:.2f}%")
+            print(f"Val Loss: {model_statistics.get_val_losses()[-1]:.4f}, Accuracy: {model_statistics.get_val_accuracies()[-1]:.2f}%")
 
     return model
 

@@ -1,7 +1,13 @@
 import matplotlib.pyplot as plt
+import torch
+from sklearn.metrics import confusion_matrix
+import seaborn as sns
+
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 class TrainedModelStatistics:
-    def __init__(self):
+    def __init__(self, model=None):
+        self.model = model
         self.train_losses = []
         self.val_losses = []
         self.train_accuracies = []
@@ -18,6 +24,18 @@ class TrainedModelStatistics:
 
     def add_val_accuracies(self, val):
         self.val_accuracies.append(val)
+
+    def get_train_loss(self):
+        return self.train_losses
+
+    def get_val_losses(self):
+        return self.val_losses
+
+    def get_train_accuracies(self):
+        return self.train_accuracies
+
+    def get_val_accuracies(self):
+        return self.val_accuracies
 
     def get_statistics(self):
         return self.train_losses, self.val_losses, self.train_accuracies, self.val_accuracies
@@ -42,4 +60,28 @@ class TrainedModelStatistics:
         plt.legend()
 
         plt.tight_layout()
+        plt.show()
+
+    def show_confusion_matrix(self, test_loader):
+        self.model.eval()
+        all_preds = []
+        all_labels = []
+
+        # Ensure no gradients are calculated
+        with torch.no_grad():
+            for images, labels in test_loader:
+                images, labels = images.to(device), labels.to(device)
+                outputs = self.model(images)
+                _, predicted = torch.max(outputs, 1)
+
+                all_preds.extend(predicted.cpu().numpy())
+                all_labels.extend(labels.cpu().numpy())
+
+        cm = confusion_matrix(all_labels, all_preds)
+
+        plt.figure(figsize=(6, 5))
+        sns.heatmap(cm, annot=True, fmt="d", cmap="Blues")
+        plt.title("Confusion Matrix")
+        plt.xlabel("Predicted Class")
+        plt.ylabel("True Class")
         plt.show()
