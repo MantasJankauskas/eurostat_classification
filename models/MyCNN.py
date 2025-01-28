@@ -27,3 +27,6 @@ class MyCNN(nn.Module):
         x = torch.flatten(x, 1)
         x = self.fc(x)
         return x
+
+    def return_model_name(self):
+        return 'MyCNN'

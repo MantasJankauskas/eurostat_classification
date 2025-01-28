@@ -97,3 +97,7 @@ class MobileNetV2(nn.Module):
             elif isinstance(m, nn.Linear):
                 nn.init.normal_(m.weight, 0, 0.01)
                 nn.init.zeros_(m.bias)
+
+
+    def return_model_name(self):
+        return 'MobileNetV2'

@@ -59,6 +59,9 @@ class TrainedModelStatistics:
         plt.title("Accuracy Change Each Epoch")
         plt.legend()
 
+        image_title = self.model.return_model_name()
+        plt.savefig(f"images/{image_title}_training_graphs.png")
+
         plt.tight_layout()
         plt.show()
 
@@ -84,4 +87,8 @@ class TrainedModelStatistics:
         plt.title("Confusion Matrix")
         plt.xlabel("Predicted Class")
         plt.ylabel("True Class")
+
+        image_title = self.model.return_model_name()
+        plt.savefig(f"images/{image_title}_confusion_matrix.png")
+
         plt.show()
