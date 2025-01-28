@@ -18,8 +18,8 @@ if __name__ == "__main__":
     #train and test model
     model = CNN()
     model_training_statistics = TrainedModelStatistics(model=model)
-    train_loader, val_loader, test_loader = get_data_for_training(num_workers=2, add_image_augmentation=True)
-    trained_model = train_model(model, model_training_statistics, train_loader, val_loader, epochs=5, show_info=True)
+    train_loader, val_loader, test_loader = get_data_for_training(num_workers=3, add_image_augmentation=True)
+    trained_model = train_model(model, model_training_statistics, train_loader, val_loader, epochs=30, show_info=True)
 
     test_model(trained_model, test_loader)
 
