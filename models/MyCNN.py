@@ -9,7 +9,8 @@ class MyCNN(nn.Module):
         self.dropout = nn.Dropout(0.1)
         self.conv2 = nn.Conv2d(16, 32, kernel_size=3)
         self.conv3 = nn.Conv2d(32, 64, kernel_size=3)
-        self.fc = nn.Linear(64 * 6 * 6, 10)
+        self.conv4 = nn.Conv2d(64, 128, kernel_size=3)
+        self.fc = nn.Linear(128 * 2 * 2, 10)
 
     def forward(self, x):
         x = F.relu(self.conv1(x))
@@ -18,6 +19,9 @@ class MyCNN(nn.Module):
         x = F.max_pool2d(x, 2)
         x = self.dropout(x)
         x = F.relu(self.conv3(x))
+        x = F.max_pool2d(x, 2)
+        x = self.dropout(x)
+        x = F.relu(self.conv4(x))
         x = F.max_pool2d(x, 2)
         x = self.dropout(x)
         x = torch.flatten(x, 1)
