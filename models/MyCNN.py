@@ -2,9 +2,9 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-class CNN(nn.Module):
+class MyCNN(nn.Module):
     def __init__(self):
-        super(CNN, self).__init__()
+        super(MyCNN, self).__init__()
         self.conv1 = nn.Conv2d(3, 16, kernel_size=3)
         self.dropout1 = nn.Dropout(0.1)
         self.conv2 = nn.Conv2d(16, 32, kernel_size=3)
