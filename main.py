@@ -14,10 +14,10 @@ if __name__ == "__main__":
     # show_data_example()
     # show_data_distribution()
 
-    # model = MyCNN()
-    model = MobileNetV2()
+    model = MyCNN()
+    # model = MobileNetV2()
 
-    # show_model_summary(model)
+    show_model_summary(model)
 
     #train and test model
     model_training_statistics = TrainedModelStatistics(model=model)
