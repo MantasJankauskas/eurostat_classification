@@ -12,3 +12,6 @@ This project involves building and training a CNN model for image classification
 
 * A brief results summary should highlight key findings and insights.
 
+## Results
+
+![Confusion Matrix for CNN](images/MyCNN_confusion_matrix.png)
